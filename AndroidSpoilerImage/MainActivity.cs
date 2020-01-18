@@ -5,6 +5,7 @@ using Android.Support.V7.App;
 using Android.Content;
 using Android.Provider;
 using Android.Support.V4.Content;
+using Android.Webkit;
 using Java.IO;
 using Uri = Android.Net.Uri;
 
@@ -24,7 +25,8 @@ namespace AndroidSpoilerImage
                 var uri = Intent.Extras.Get(Intent.ExtraStream) as Uri;
                 var from = new File(uri.Path);
 
-                var toFilepath = $"{GetExternalCacheDirs()[0].AbsolutePath}{File.Separator}SPOILER_{from.Name}";
+                var extension = MimeTypeMap.Singleton.GetExtensionFromMimeType(Intent.Type);
+                var toFilepath = $"{GetExternalCacheDirs()[0].AbsolutePath}{File.Separator}SPOILER_{from.Name}.{extension}";
 
                 //Copy
                 using (var input = ContentResolver.OpenInputStream(uri))
